@@ -72,7 +72,7 @@ public class NotificationListener extends NotificationListenerService {
         if(!sbn.getNotification().getChannelId().equals(ID)) {
 
             DisplayManager displayManager = (DisplayManager) getSystemService(Context.DISPLAY_SERVICE);
-            if(displayManager.getDisplay(0).getState() == Display.STATE_OFF){
+            if(true || displayManager.getDisplay(0).getState() == Display.STATE_OFF){
                 PackageManager pm = getPackageManager();
 
                 String packageName = sbn.getPackageName();
@@ -89,19 +89,21 @@ public class NotificationListener extends NotificationListenerService {
                     ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
 
                     CharSequence appName = pm.getApplicationLabel(appInfo);
+                    AppSetting setting = AppSettings.getAppSettingDao().getSetting(packageName);
+                    Log.d("NotificationListener", setting.toString());
 
                     //TODO: for now don't sent notification for system apps, make it a setting later
-                    //if((appInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) != 0){
-                    //    return;
-                    //}
+                    if((setting != null ? !setting.getEnabled() : false)){
+                        return;
+                    }
 
-                    AppSetting setting = AppSettings.getAppSettingDao().getSetting(packageName);
+
 
                     notificationBuilder.setContentTitle(appName);
                     notificationBuilder.setContentText(createNotificationText(title, text, setting));
                     notificationBuilder.setChannelId(ID);
                     notificationBuilder.setSmallIcon(sbn.getNotification().getSmallIcon());
-                    notificationBuilder.setTimeoutAfter(1);
+                    notificationBuilder.setTimeoutAfter(1000);
 
                     NotificationManager notificationManager = getSystemService(NotificationManager.class);
 

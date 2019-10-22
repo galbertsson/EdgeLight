@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
         appSetting.setTitlePos(-1);
 
         dao.setSetting(appSetting);*/
+    }
+
+    public void onClick(View view){
+        startActivity(new Intent(this, Settings.class));
     }
 
 }
