@@ -1,16 +1,12 @@
 package com.example.edgelight;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 public class Settings extends AppCompatActivity {
 
@@ -21,17 +17,24 @@ public class Settings extends AppCompatActivity {
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
+            CheckBox checkBox = findViewById(R.id.system_applications_checkbox);
 
- //           ChoosingDeckPresenter presenter = new ChoosingDeckPresenter(this);
-
-            setContentView(R.layout.activity_settings);
-            RecyclerView mRecyclerView = findViewById(R.id.settingsList);
+            final RecyclerView mRecyclerView = findViewById(R.id.settingsList);
             mRecyclerView.setHasFixedSize(true);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
             mRecyclerView.setLayoutManager(layoutManager);
-
-            RecyclerView.Adapter mAdapter = new SettingsAdapter(new SettingsHelper(getPackageManager()));
+            final SettingsHelper settingsHelper = new SettingsHelper(getPackageManager());
+            final RecyclerView.Adapter mAdapter = new SettingsAdapter(settingsHelper);
             mRecyclerView.setAdapter(mAdapter);
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    settingsHelper.setDisplaySystemApps(isChecked);
+                    mAdapter.notifyDataSetChanged();
+                }
+
+            });
         }
 }

@@ -3,33 +3,44 @@ package com.example.edgelight;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
-import android.widget.Switch;
-import android.widget.TextView;
-
 import com.example.edgelight.controller.AppSettingDao;
 import com.example.edgelight.controller.AppSettings;
 import com.example.edgelight.model.AppSetting;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class SettingsHelper {
 
     private AppSettingDao appSettingDao;
-    //PackageManager packageManager;
-    List<ApplicationInfo> installedApplications;
+    private PackageManager packageManager;
+    private List<ApplicationInfo> installedApplications;
+    private List<ApplicationInfo> workingCopy;
 
-    public SettingsHelper(PackageManager packageManager) {
+    private boolean displaySystemApps = false;
+
+    public SettingsHelper(final PackageManager packageManager) {
         this.appSettingDao = AppSettings.getAppSettingDao();
-        //this.packageManager = packageManager;
         this.installedApplications = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+        this.packageManager = packageManager;
+
+        this.workingCopy = new ArrayList<>(installedApplications.stream()
+                .filter(new Predicate<ApplicationInfo>() {
+                    @Override
+                    public boolean test(ApplicationInfo p) {
+                        try {
+                            return (packageManager.getApplicationInfo(p.packageName, 0).flags & (ApplicationInfo.FLAG_SYSTEM)) == 0;
+                        } catch (PackageManager.NameNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                return false;
+            }
+        }).collect(Collectors.<ApplicationInfo>toList()));
     }
 
-    //TODO: Fetch data
     public void onBindSettingRowViewAtPosition(int position, SettingsViewHolder holder){
-        ApplicationInfo applicationInfo = installedApplications.get(position);
-        Log.d("EdgeLightning", position+"");
-        Log.d("EdgeLightning", applicationInfo.packageName);
-
+        ApplicationInfo applicationInfo = workingCopy.get(position);
         AppSetting appSetting = appSettingDao.getSetting(applicationInfo.packageName);
 
         holder.setTitle(appSetting != null ? appSetting.getPackageName() : "New app: " + applicationInfo.packageName);
@@ -39,8 +50,7 @@ public class SettingsHelper {
     }
 
     public int getRowsCount(){
-        Log.d("EdgeLightning", installedApplications.size()+"");
-        return installedApplications.size();
+        return workingCopy.size();
     }
 
     public void update(String packageName, Boolean on, int titlePos, int textPos) {
@@ -55,5 +65,32 @@ public class SettingsHelper {
         appSetting.setEnabled(on);
 
         appSettingDao.updateSetting(appSetting);
+    }
+
+    public boolean isDisplaySystemApps() {
+        return displaySystemApps;
+    }
+
+    public void setDisplaySystemApps(boolean displaySystemApps) {
+        this.displaySystemApps = displaySystemApps;
+        if(displaySystemApps) {
+            workingCopy.clear();
+            workingCopy.addAll(installedApplications);
+        }
+        else {
+            workingCopy.clear();
+            workingCopy.addAll(installedApplications.stream()
+                    .filter(new Predicate<ApplicationInfo>() {
+                        @Override
+                        public boolean test(ApplicationInfo p) {
+                            try {
+                                return (packageManager.getApplicationInfo(p.packageName, 0).flags & (ApplicationInfo.FLAG_SYSTEM)) == 0;
+                            } catch (PackageManager.NameNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            return false;
+                        }
+                    }).collect(Collectors.<ApplicationInfo>toList()));
+        }
     }
 }
