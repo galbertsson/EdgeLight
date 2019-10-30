@@ -43,7 +43,7 @@ public class SettingsHelper {
         ApplicationInfo applicationInfo = workingCopy.get(position);
         AppSetting appSetting = appSettingDao.getSetting(applicationInfo.packageName);
 
-        holder.setTitle(appSetting != null ? appSetting.getPackageName() : "New app: " + applicationInfo.packageName);
+        holder.setTitle(appSetting != null ? appSetting.getPackageName() : applicationInfo.packageName);
         holder.setTitlePos(appSetting != null ? appSetting.getTitlePos() : 0);
         holder.setTextPos(appSetting != null ? appSetting.getTextPos() : 1);
         holder.setOnOff(appSetting != null ? appSetting.getEnabled() : true); //TODO: This is not a correct assumption, system apps are not on by default
@@ -54,6 +54,11 @@ public class SettingsHelper {
     }
 
     public void update(String packageName, Boolean on, int titlePos, int textPos) {
+        Log.d("EdgeLightning", "Going to save!");
+        for (AppSetting setting : appSettingDao.getAll()){
+            Log.d("EdgeLightning", setting.toString());
+        }
+
         AppSetting appSetting = appSettingDao.getSetting(packageName);
         if (appSetting == null){
             appSetting = new AppSetting();
@@ -64,7 +69,7 @@ public class SettingsHelper {
         appSetting.setTextPos(textPos);
         appSetting.setEnabled(on);
 
-        appSettingDao.updateSetting(appSetting);
+        appSettingDao.setSetting(appSetting);
     }
 
     public boolean isDisplaySystemApps() {
@@ -92,5 +97,22 @@ public class SettingsHelper {
                         }
                     }).collect(Collectors.<ApplicationInfo>toList()));
         }
+    }
+
+    public void textFilter(final String text) {
+        Log.d("EdgeLightning", text);
+        workingCopy.clear();
+        workingCopy.addAll(installedApplications.stream()
+                .filter(new Predicate<ApplicationInfo>() {
+                    @Override
+                    public boolean test(ApplicationInfo p) {
+                        if (p.packageName.contains(text)) {
+                            Log.d("EdgeLightning", p.packageName);
+                            Log.d("EdgeLightning", p.packageName.contains(text)+"");
+                        }
+
+                        return p.packageName.contains(text);
+                    }
+                }).collect(Collectors.<ApplicationInfo>toList()));
     }
 }
