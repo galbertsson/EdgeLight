@@ -3,10 +3,10 @@
 Current State:
 - [X] Notifications are being sent when the screen is off
 - [X] System applications are being ignored (to prevent sending charging notifications)
+- [X] Make it possible to toggle which apps that should activate Edge Lightning 
+- [X] Being able to change the contents of the notification
 
 Plans:
-- [ ] Make it possible to toggle which apps that should activate Edge Lightning 
-- [ ] Being able to change the contents of the notification
 - [ ] Figure out why sometimes a notification is sent without any information from the original notification
 - [ ] Look more into the power consumption of the app
 - [ ] Look into a workaround for setting the color of the Edge Lightning effect
