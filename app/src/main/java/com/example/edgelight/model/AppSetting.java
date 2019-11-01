@@ -58,6 +58,6 @@ public class AppSetting {
     @NonNull
     @Override
     public String toString() {
-        return "{package: " + packageName + ", titlePos: " + titlePos + ", textPos: " + textPos +  "}";
+        return "{package: " + packageName + ", titlePos: " + titlePos + ", textPos: " + textPos + ", enabled: " + enabled + "}";
     }
 }

@@ -46,22 +46,20 @@ public class NotificationListener extends NotificationListenerService {
         int textPos = 1;
 
         if(setting != null) {
-            Log.d("NotificationListener", setting.toString());
             titlePos = setting.getTitlePos();
             textPos = setting.getTextPos();
         }
 
         if(titlePos < textPos){
-            notificationText.append(titlePos != -1 ? title : "");
+            notificationText.append(titlePos != 2 ? title : "");
             notificationText.append(" ");
-            notificationText.append(textPos != -1 ? text : "");
+            notificationText.append(textPos != 2 ? text : "");
         } else {
-            notificationText.append(textPos != -1 ? text : "");
+            notificationText.append(textPos != 2 ? text : "");
             notificationText.append(" ");
-            notificationText.append(titlePos != -1 ? title : "");
+            notificationText.append(titlePos != 2 ? title : "");
         }
 
-        Log.d("NotificationListener", notificationText.toString());
         return notificationText.toString();
     }
 
@@ -84,24 +82,21 @@ public class NotificationListener extends NotificationListenerService {
                 notificationBuilder.setColor(sbn.getNotification().color);
 
                 try {
-                    Log.d("NotificationListener","PackageName " + packageName);
-
                     ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
 
                     CharSequence appName = pm.getApplicationLabel(appInfo);
-
-                    //TODO: for now don't sent notification for system apps, make it a setting later
-                    //if((appInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) != 0){
-                    //    return;
-                    //}
-
                     AppSetting setting = AppSettings.getAppSettingDao().getSetting(packageName);
+
+                    if((setting != null ? !setting.getEnabled() : (appInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) != 0)) {
+                        return;
+                    }
+
 
                     notificationBuilder.setContentTitle(appName);
                     notificationBuilder.setContentText(createNotificationText(title, text, setting));
                     notificationBuilder.setChannelId(ID);
                     notificationBuilder.setSmallIcon(sbn.getNotification().getSmallIcon());
-                    notificationBuilder.setTimeoutAfter(1);
+                    notificationBuilder.setTimeoutAfter(1000);
 
                     NotificationManager notificationManager = getSystemService(NotificationManager.class);
 
@@ -110,7 +105,6 @@ public class NotificationListener extends NotificationListenerService {
 
                     lock.acquire(1);
 
-                    Log.d("NotificationListener", "Sending Notification for " + appName);
                     notificationManager.notify(0, notificationBuilder.build());
 
                     lock.release();

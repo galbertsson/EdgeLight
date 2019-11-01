@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <Switch
+        android:id="@+id/onOff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="11dp" />
+
+    <TextView
+        android:id="@+id/package_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="2dp"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/title_pos"
+            android:layout_width="0dp"
+            android:layout_weight="0.45"
+            android:layout_height="40dp"
+            android:layout_marginBottom="18dp" />
+
+        <Spinner
+            android:id="@+id/text_pos"
+            android:layout_width="0dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="-9dp"
+            android:layout_marginBottom="18dp"
+            android:layout_weight="0.45" />
+    </LinearLayout>
+
+</RelativeLayout>
