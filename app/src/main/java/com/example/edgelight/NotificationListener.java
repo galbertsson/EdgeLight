@@ -52,13 +52,13 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         if(titlePos < textPos){
-            notificationText.append(titlePos != -1 ? title : "");
+            notificationText.append(titlePos != 2 ? title : "");
             notificationText.append(" ");
-            notificationText.append(textPos != -1 ? text : "");
+            notificationText.append(textPos != 2 ? text : "");
         } else {
-            notificationText.append(textPos != -1 ? text : "");
+            notificationText.append(textPos != 2 ? text : "");
             notificationText.append(" ");
-            notificationText.append(titlePos != -1 ? title : "");
+            notificationText.append(titlePos != 2 ? title : "");
         }
 
         Log.d("NotificationListener", notificationText.toString());
@@ -72,7 +72,7 @@ public class NotificationListener extends NotificationListenerService {
         if(!sbn.getNotification().getChannelId().equals(ID)) {
 
             DisplayManager displayManager = (DisplayManager) getSystemService(Context.DISPLAY_SERVICE);
-            if(displayManager.getDisplay(0).getState() == Display.STATE_OFF){
+            if(true || displayManager.getDisplay(0).getState() == Display.STATE_OFF){
                 PackageManager pm = getPackageManager();
 
                 String packageName = sbn.getPackageName();
@@ -90,6 +90,7 @@ public class NotificationListener extends NotificationListenerService {
 
                     CharSequence appName = pm.getApplicationLabel(appInfo);
                     AppSetting setting = AppSettings.getAppSettingDao().getSetting(packageName);
+                    Log.d("NotificationListener", setting != null ? setting.toString() : "No Settings found for " + packageName);
 
                     if((setting != null ? setting.getEnabled() : (appInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) != 0)) {
                         return;

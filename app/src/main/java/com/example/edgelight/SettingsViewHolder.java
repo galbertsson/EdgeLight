@@ -1,9 +1,11 @@
 package com.example.edgelight;
 
-import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -12,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 class SettingsViewHolder extends RecyclerView.ViewHolder{
     private final TextView packageName;
     private final Switch onOff;
-    private final TextView titlePos;
-    private final TextView textPos;
+    private final Spinner titlePos;
+    private final Spinner textPos;
 
     public SettingsViewHolder(View itemView, final SettingsHelper settingsHelper) {
         super(itemView);
@@ -27,16 +29,61 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 settingsHelper.update(packageName.getText().toString(),
                         isChecked,
-                        Integer.parseInt(titlePos.getText().toString()),
-                        Integer.parseInt(textPos.getText().toString()));
+                        0,
+                        1); //TODO: fix
             }
         });
 
-        itemView.setOnClickListener(new View.OnClickListener() { //TODO: Create more for the different settings
+
+        ArrayAdapter<CharSequence> titleAdapter = ArrayAdapter.createFromResource(itemView.getContext(),
+                R.array.dropDown, android.R.layout.simple_spinner_item);
+
+
+        titleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        titlePos.setAdapter(titleAdapter);
+
+        titlePos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                //presenter.deckClicked(getAdapterPosition());
-                Log.d("EdgeLightning", "Clickicle lick");
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("EdgeLight", "id " + id + " position " + position);
+                settingsHelper.update(
+                        packageName.getText().toString(),
+                        onOff.isChecked(),
+                        titlePos.getSelectedItemPosition(),
+                        textPos.getSelectedItemPosition()
+                );
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        ArrayAdapter<CharSequence> textAdapter = ArrayAdapter.createFromResource(itemView.getContext(),
+                R.array.dropDown, android.R.layout.simple_spinner_item);
+
+
+        textAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        textPos.setAdapter(textAdapter);
+
+        textPos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                settingsHelper.update(
+                        packageName.getText().toString(),
+                        onOff.isChecked(),
+                        titlePos.getSelectedItemPosition(),
+                        textPos.getSelectedItemPosition()
+                );
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -50,10 +97,10 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
     }
 
     public void setTitlePos(int pos) {
-        titlePos.setText(pos+"");
+        titlePos.setSelection(pos);
     }
 
     public void setTextPos(int pos) {
-        textPos.setText(pos+"");
+        textPos.setSelection(pos);
     }
 }
