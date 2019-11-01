@@ -46,7 +46,6 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
         titlePos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("EdgeLight", "id " + id + " position " + position);
                 settingsHelper.update(
                         packageName.getText().toString(),
                         onOff.isChecked(),

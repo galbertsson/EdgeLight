@@ -54,11 +54,6 @@ public class SettingsHelper {
     }
 
     public void update(String packageName, Boolean on, int titlePos, int textPos) {
-        Log.d("EdgeLightning", "Going to save!");
-        for (AppSetting setting : appSettingDao.getAll()){
-            Log.d("EdgeLightning", setting.toString());
-        }
-
         AppSetting appSetting = appSettingDao.getSetting(packageName);
         if (appSetting == null){
             appSetting = new AppSetting();
@@ -100,17 +95,11 @@ public class SettingsHelper {
     }
 
     public void textFilter(final String text) {
-        Log.d("EdgeLightning", text);
         workingCopy.clear();
         workingCopy.addAll(installedApplications.stream()
                 .filter(new Predicate<ApplicationInfo>() {
                     @Override
                     public boolean test(ApplicationInfo p) {
-                        if (p.packageName.contains(text)) {
-                            Log.d("EdgeLightning", p.packageName);
-                            Log.d("EdgeLightning", p.packageName.contains(text)+"");
-                        }
-
                         return p.packageName.contains(text);
                     }
                 }).collect(Collectors.<ApplicationInfo>toList()));

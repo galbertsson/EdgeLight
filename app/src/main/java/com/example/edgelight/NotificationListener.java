@@ -46,7 +46,6 @@ public class NotificationListener extends NotificationListenerService {
         int textPos = 1;
 
         if(setting != null) {
-            Log.d("NotificationListener", setting.toString());
             titlePos = setting.getTitlePos();
             textPos = setting.getTextPos();
         }
@@ -61,7 +60,6 @@ public class NotificationListener extends NotificationListenerService {
             notificationText.append(titlePos != 2 ? title : "");
         }
 
-        Log.d("NotificationListener", notificationText.toString());
         return notificationText.toString();
     }
 
@@ -84,16 +82,12 @@ public class NotificationListener extends NotificationListenerService {
                 notificationBuilder.setColor(sbn.getNotification().color);
 
                 try {
-                    Log.d("NotificationListener","PackageName " + packageName);
-
                     ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
 
                     CharSequence appName = pm.getApplicationLabel(appInfo);
                     AppSetting setting = AppSettings.getAppSettingDao().getSetting(packageName);
-                    Log.d("NotificationListener", setting != null ? setting.toString() : "No Settings found for " + packageName);
 
                     if((setting != null ? !setting.getEnabled() : (appInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) != 0)) {
-                        Log.d("NotificationListener", "Not sending!");
                         return;
                     }
 
@@ -111,7 +105,6 @@ public class NotificationListener extends NotificationListenerService {
 
                     lock.acquire(1);
 
-                    Log.d("NotificationListener", "Sending Notification for " + appName);
                     notificationManager.notify(0, notificationBuilder.build());
 
                     lock.release();
