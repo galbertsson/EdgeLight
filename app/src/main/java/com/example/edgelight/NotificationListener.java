@@ -92,7 +92,8 @@ public class NotificationListener extends NotificationListenerService {
                     AppSetting setting = AppSettings.getAppSettingDao().getSetting(packageName);
                     Log.d("NotificationListener", setting != null ? setting.toString() : "No Settings found for " + packageName);
 
-                    if((setting != null ? setting.getEnabled() : (appInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) != 0)) {
+                    if((setting != null ? !setting.getEnabled() : (appInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) != 0)) {
+                        Log.d("NotificationListener", "Not sending!");
                         return;
                     }
 

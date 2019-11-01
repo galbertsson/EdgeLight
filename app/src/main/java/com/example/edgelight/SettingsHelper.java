@@ -46,7 +46,7 @@ public class SettingsHelper {
         holder.setTitle(appSetting != null ? appSetting.getPackageName() : applicationInfo.packageName);
         holder.setTitlePos(appSetting != null ? appSetting.getTitlePos() : 0);
         holder.setTextPos(appSetting != null ? appSetting.getTextPos() : 1);
-        holder.setOnOff(appSetting != null ? appSetting.getEnabled() : true); //TODO: This is not a correct assumption, system apps are not on by default
+        holder.setOnOff(appSetting != null ? appSetting.getEnabled() : (applicationInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) == 0);
     }
 
     public int getRowsCount(){
