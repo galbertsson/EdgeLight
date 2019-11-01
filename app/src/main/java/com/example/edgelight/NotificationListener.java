@@ -72,7 +72,7 @@ public class NotificationListener extends NotificationListenerService {
         if(!sbn.getNotification().getChannelId().equals(ID)) {
 
             DisplayManager displayManager = (DisplayManager) getSystemService(Context.DISPLAY_SERVICE);
-            if(true || displayManager.getDisplay(0).getState() == Display.STATE_OFF){
+            if(displayManager.getDisplay(0).getState() == Display.STATE_OFF){
                 PackageManager pm = getPackageManager();
 
                 String packageName = sbn.getPackageName();
@@ -95,7 +95,6 @@ public class NotificationListener extends NotificationListenerService {
                     if((setting != null ? setting.getEnabled() : (appInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) != 0)) {
                         return;
                     }
-
 
 
                     notificationBuilder.setContentTitle(appName);

@@ -29,8 +29,8 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 settingsHelper.update(packageName.getText().toString(),
                         isChecked,
-                        0,
-                        1); //TODO: fix
+                        titlePos.getSelectedItemPosition(),
+                        textPos.getSelectedItemPosition());
             }
         });
 
@@ -50,7 +50,7 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
                 settingsHelper.update(
                         packageName.getText().toString(),
                         onOff.isChecked(),
-                        titlePos.getSelectedItemPosition(),
+                        position,
                         textPos.getSelectedItemPosition()
                 );
             }
@@ -77,7 +77,7 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
                         packageName.getText().toString(),
                         onOff.isChecked(),
                         titlePos.getSelectedItemPosition(),
-                        textPos.getSelectedItemPosition()
+                        position
                 );
             }
 
