@@ -66,6 +66,9 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
+        if(sbn == null) {
+            return;
+        }
 
         if(!sbn.getNotification().getChannelId().equals(ID)) {
 
