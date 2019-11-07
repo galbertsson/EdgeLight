@@ -70,7 +70,7 @@ public class NotificationListener extends NotificationListenerService {
             return;
         }
 
-        if(!sbn.getNotification().getChannelId().equals(ID)) {
+        if(sbn.getNotification().getChannelId() == null || !sbn.getNotification().getChannelId().equals(ID)) {
 
             DisplayManager displayManager = (DisplayManager) getSystemService(Context.DISPLAY_SERVICE);
             if(displayManager.getDisplay(0).getState() == Display.STATE_OFF){
