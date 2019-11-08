@@ -16,6 +16,7 @@ import android.view.Display;
 import android.widget.Toast;
 import com.example.edgelight.controller.AppSettings;
 import com.example.edgelight.model.AppSetting;
+import com.example.edgelight.util.NotificationUtils;
 
 
 public class NotificationListener extends NotificationListenerService {
@@ -38,36 +39,14 @@ public class NotificationListener extends NotificationListenerService {
         }
     }
 
-    public String createNotificationText(CharSequence title, CharSequence text, AppSetting setting){
-        StringBuilder notificationText = new StringBuilder();
-
-
-        int titlePos = 0;
-        int textPos = 1;
-
-        if(setting != null) {
-            titlePos = setting.getTitlePos();
-            textPos = setting.getTextPos();
-        }
-
-        if(titlePos < textPos){
-            notificationText.append(titlePos != 2 ? title : "");
-            notificationText.append(" ");
-            notificationText.append(textPos != 2 ? text : "");
-        } else {
-            notificationText.append(textPos != 2 ? text : "");
-            notificationText.append(" ");
-            notificationText.append(titlePos != 2 ? title : "");
-        }
-
-        return notificationText.toString();
-    }
-
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);
+        if(sbn == null) {
+            return;
+        }
 
-        if(!sbn.getNotification().getChannelId().equals(ID)) {
+        if(sbn.getNotification().getChannelId() == null || !sbn.getNotification().getChannelId().equals(ID)) {
 
             DisplayManager displayManager = (DisplayManager) getSystemService(Context.DISPLAY_SERVICE);
             if(displayManager.getDisplay(0).getState() == Display.STATE_OFF){
@@ -93,7 +72,7 @@ public class NotificationListener extends NotificationListenerService {
 
 
                     notificationBuilder.setContentTitle(appName);
-                    notificationBuilder.setContentText(createNotificationText(title, text, setting));
+                    notificationBuilder.setContentText(NotificationUtils.createNotificationText(title, text, setting));
                     notificationBuilder.setChannelId(ID);
                     notificationBuilder.setSmallIcon(sbn.getNotification().getSmallIcon());
                     notificationBuilder.setTimeoutAfter(1000);
