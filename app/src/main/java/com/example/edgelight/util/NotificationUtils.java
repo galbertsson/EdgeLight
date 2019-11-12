@@ -49,11 +49,10 @@ public class NotificationUtils {
     }
 
     public static String parseHeader(AppSetting setting, CharSequence appName, CharSequence title, CharSequence text) {
-        String header = setting.getHeader();
-
-        if (header == null) {
-            return title.toString();
+        if (setting == null || setting.getHeader() == null) {
+            return title != null ? title.toString() : "";
         }
+        String header = setting.getHeader();
 
         int appNameIndex = header.indexOf("$name");
         if (appNameIndex > -1) {

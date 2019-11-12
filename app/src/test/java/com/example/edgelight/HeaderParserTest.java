@@ -215,4 +215,18 @@ public class HeaderParserTest {
         String notification = NotificationUtils.parseHeader(appSetting, appName, title, text);
         assertEquals(expected, notification);
     }
+
+    @Test
+    public void nullSetting() {
+        AppSetting appSetting = null;
+        String appName = "Gmail";
+        String title = "title";
+        String text = "text";
+
+
+        String expected = "title";
+
+        String notification = NotificationUtils.parseHeader(appSetting, appName, title, text);
+        assertEquals(expected, notification);
+    }
 }
