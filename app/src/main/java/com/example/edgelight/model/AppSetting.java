@@ -1,6 +1,7 @@
 package com.example.edgelight.model;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -20,6 +21,10 @@ public class AppSetting {
 
     @ColumnInfo(name = "text_pos")
     private int textPos;
+
+    @ColumnInfo(name = "header")
+    @Nullable
+    private String header;
 
     public AppSetting(){}
 
@@ -43,6 +48,11 @@ public class AppSetting {
         return textPos;
     }
 
+    @Nullable
+    public String getHeader() {
+        return header;
+    }
+
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
@@ -53,6 +63,10 @@ public class AppSetting {
 
     public void setTextPos(int textPos) {
         this.textPos = textPos;
+    }
+
+    public void setHeader(@Nullable String header) {
+        this.header = header;
     }
 
     @NonNull
