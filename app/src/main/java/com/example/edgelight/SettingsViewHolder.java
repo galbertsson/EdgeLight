@@ -1,21 +1,28 @@
 package com.example.edgelight;
 
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.edgelight.util.Debounce;
+
 class SettingsViewHolder extends RecyclerView.ViewHolder{
     private final TextView packageName;
     private final Switch onOff;
     private final Spinner titlePos;
     private final Spinner textPos;
+    private final EditText text;
+
+    private Debounce textDebounce = new Debounce(1000);
 
     public SettingsViewHolder(View itemView, final SettingsHelper settingsHelper) {
         super(itemView);
@@ -23,6 +30,7 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
         packageName = itemView.findViewById(R.id.package_name);
         titlePos = itemView.findViewById(R.id.title_pos);
         textPos = itemView.findViewById(R.id.text_pos);
+        text = itemView.findViewById(R.id.header);
 
         onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -30,7 +38,9 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
                 settingsHelper.update(packageName.getText().toString(),
                         isChecked,
                         titlePos.getSelectedItemPosition(),
-                        textPos.getSelectedItemPosition());
+                        textPos.getSelectedItemPosition(),
+                        text.getText().toString()
+                );
             }
         });
 
@@ -50,7 +60,8 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
                         packageName.getText().toString(),
                         onOff.isChecked(),
                         position,
-                        textPos.getSelectedItemPosition()
+                        textPos.getSelectedItemPosition(),
+                        text.getText().toString()
                 );
             }
 
@@ -76,12 +87,41 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
                         packageName.getText().toString(),
                         onOff.isChecked(),
                         titlePos.getSelectedItemPosition(),
-                        position
+                        position,
+                        text.getText().toString()
                 );
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textDebounce.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        settingsHelper.update(
+                                packageName.getText().toString(),
+                                onOff.isChecked(),
+                                titlePos.getSelectedItemPosition(),
+                                textPos.getSelectedItemPosition(),
+                                text.getText().toString()
+                        );
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -101,5 +141,9 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
 
     public void setTextPos(int pos) {
         textPos.setSelection(pos);
+    }
+
+    public void setHeader(String header) {
+        text.setText(header);
     }
 }
