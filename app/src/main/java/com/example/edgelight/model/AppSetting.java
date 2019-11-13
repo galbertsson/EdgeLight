@@ -48,7 +48,6 @@ public class AppSetting {
         return textPos;
     }
 
-    @Nullable
     public String getHeader() {
         return header;
     }
@@ -65,7 +64,7 @@ public class AppSetting {
         this.textPos = textPos;
     }
 
-    public void setHeader(@Nullable String header) {
+    public void setHeader(String header) {
         this.header = header;
     }
 
