@@ -2,7 +2,6 @@ package com.example.edgelight;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 import com.example.edgelight.controller.AppSettingDao;
 import com.example.edgelight.controller.AppSettings;
 import com.example.edgelight.model.AppSetting;
@@ -47,13 +46,14 @@ public class SettingsHelper {
         holder.setTitlePos(appSetting != null ? appSetting.getTitlePos() : 0);
         holder.setTextPos(appSetting != null ? appSetting.getTextPos() : 1);
         holder.setOnOff(appSetting != null ? appSetting.getEnabled() : (applicationInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) == 0);
+        holder.setHeader(appSetting != null ? appSetting.getHeader() : "$title");
     }
 
     public int getRowsCount(){
         return workingCopy.size();
     }
 
-    public void update(String packageName, Boolean on, int titlePos, int textPos) {
+    public void update(String packageName, Boolean on, int titlePos, int textPos, String header) {
         AppSetting appSetting = appSettingDao.getSetting(packageName);
         if (appSetting == null){
             appSetting = new AppSetting();
@@ -63,6 +63,7 @@ public class SettingsHelper {
         appSetting.setTitlePos(titlePos);
         appSetting.setTextPos(textPos);
         appSetting.setEnabled(on);
+        appSetting.setHeader(header);
 
         appSettingDao.setSetting(appSetting);
     }

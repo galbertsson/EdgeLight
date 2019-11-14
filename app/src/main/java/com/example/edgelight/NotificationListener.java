@@ -71,7 +71,7 @@ public class NotificationListener extends NotificationListenerService {
                     }
 
 
-                    notificationBuilder.setContentTitle(appName);
+                    notificationBuilder.setContentTitle(NotificationUtils.parseHeader(setting, appName, title, text));
                     notificationBuilder.setContentText(NotificationUtils.createNotificationText(title, text, setting));
                     notificationBuilder.setChannelId(ID);
                     notificationBuilder.setSmallIcon(sbn.getNotification().getSmallIcon());
