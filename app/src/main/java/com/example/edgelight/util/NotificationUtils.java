@@ -47,4 +47,43 @@ public class NotificationUtils {
         }
         return notificationText.toString();
     }
+
+    public static String parseHeader(AppSetting setting, CharSequence appName, CharSequence title, CharSequence text) {
+        if (setting == null || setting.getHeader() == null) {
+            return title != null ? title.toString() : "";
+        }
+        String header = setting.getHeader();
+
+        int appNameIndex = header.indexOf("$name");
+        if (appNameIndex > -1) {
+            String tmp = header.substring(0, appNameIndex);
+            if (appName != null) {
+                tmp += appName;
+            }
+            tmp += header.substring(appNameIndex+5);
+            header = tmp;
+        }
+
+        int titleIndex = header.indexOf("$title");
+        if (titleIndex > -1) {
+            String tmp = header.substring(0, titleIndex);
+            if (title != null) {
+                tmp += title;
+            }
+            tmp += header.substring(titleIndex+6);
+            header = tmp;
+        }
+
+        int textIndex = header.indexOf("$text");
+        if (textIndex > -1) {
+            String tmp = header.substring(0, textIndex);
+            if (text != null) {
+                tmp += text;
+            }
+            tmp += header.substring(textIndex+5);
+            header = tmp;
+        }
+
+        return header;
+    }
 }
