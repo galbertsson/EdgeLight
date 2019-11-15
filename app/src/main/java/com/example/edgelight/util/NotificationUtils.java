@@ -50,7 +50,7 @@ public class NotificationUtils {
 
     public static String parseHeader(AppSetting setting, CharSequence appName, CharSequence title, CharSequence text) {
         if (setting == null || setting.getHeader() == null) {
-            return title != null ? title.toString() : "";
+            return appName != null ? appName.toString() : "";
         }
         String header = setting.getHeader();
 

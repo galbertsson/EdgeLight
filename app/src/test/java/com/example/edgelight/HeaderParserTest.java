@@ -97,7 +97,7 @@ public class HeaderParserTest {
         String text = "text";
 
 
-        String expected = "title";
+        String expected = "Gmail";
 
         String notification = NotificationUtils.parseHeader(appSetting, appName, title, text);
 
@@ -224,7 +224,7 @@ public class HeaderParserTest {
         String text = "text";
 
 
-        String expected = "title";
+        String expected = "Gmail";
 
         String notification = NotificationUtils.parseHeader(appSetting, appName, title, text);
         assertEquals(expected, notification);

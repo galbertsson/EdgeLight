@@ -46,7 +46,7 @@ public class SettingsHelper {
         holder.setTitlePos(appSetting != null ? appSetting.getTitlePos() : 0);
         holder.setTextPos(appSetting != null ? appSetting.getTextPos() : 1);
         holder.setOnOff(appSetting != null ? appSetting.getEnabled() : (applicationInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) == 0);
-        holder.setHeader(appSetting != null ? appSetting.getHeader() : "$title");
+        holder.setHeader(appSetting != null ? appSetting.getHeader() : "$name");
     }
 
     public int getRowsCount(){
