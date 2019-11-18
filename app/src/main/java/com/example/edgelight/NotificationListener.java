@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 import android.view.Display;
 import android.widget.Toast;
 import com.example.edgelight.controller.AppSettings;
@@ -44,6 +43,10 @@ public class NotificationListener extends NotificationListenerService {
         super.onNotificationPosted(sbn);
         if(sbn == null) {
             return;
+        }
+
+        if(AppSettings.getAppSettingDao() == null) {
+            AppSettings.initSingleton(getApplicationContext());
         }
 
         if(sbn.getNotification().getChannelId() == null || !sbn.getNotification().getChannelId().equals(ID)) {
