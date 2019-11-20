@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">Edge Light</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="setup">Setup:\n This application requires notification access in order to be able
+        to read the contents of notifications.
+    \n\n
+    Title of notification:\n
+        The title can be changed with the following syntax:\n
+         $name - translates into the name of the application that sent the original notification\n
+         $title - translates into the original title of the notification\n
+         $test - translates into the original text of the notification\n
+        All other characters will be treated as text and displayed without any modifications in the title.
+\n\n
+    Color of notification:\n
+        The color of the notification cannot by this application. This needs to be done in setting on the phone.
+        Settings for this are located at "Edge lightning">"Edge Light Style">"Color" >"Custom Color".
+        To change the color of an application there needs to be an exact match between the title of the notification
+        and an setting in the list "By Text".
+    </string>
 </resources>

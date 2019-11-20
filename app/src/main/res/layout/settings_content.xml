@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
-    android:orientation="vertical">
+    android:layout_height="140dp"
+    android:orientation="vertical"
+    android:layout_margin="5dp"
+    android:background="@android:color/white"
+    android:elevation="2dp">
 
     <Switch
         android:id="@+id/onOff"
@@ -17,20 +20,38 @@
         android:layout_height="wrap_content"
         android:text="" />
 
-    <EditText
-        android:id="@+id/header"
+    <LinearLayout
+        android:id="@+id/upper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linear"
         android:layout_below="@+id/package_name"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="14dp"
-        android:layout_marginTop="2dp"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Notification header"
-        android:textColorHint="#FEFEFE"/>
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title:" />
+
+        <EditText
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="14dp"
+            android:ems="10"
+            android:inputType="text"
+            android:textColorHint="#FEFEFE" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notification content"
+        android:layout_below="@+id/upper"
+        android:layout_above="@+id/linear"
+        />
 
     <LinearLayout
         android:id="@+id/linear"
@@ -39,13 +60,27 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="-7dp"
         android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:layout_weight="0.1"
+            />
+
 
         <Spinner
             android:id="@+id/title_pos"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginBottom="18dp"
-            android:layout_weight="0.45" />
+            android:layout_weight="0.40" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Text"
+            android:layout_weight="0.1"
+            />
 
         <Spinner
             android:id="@+id/text_pos"
@@ -54,7 +89,7 @@
             android:layout_marginStart="22dp"
             android:layout_marginEnd="-9dp"
             android:layout_marginBottom="18dp"
-            android:layout_weight="0.45" />
+            android:layout_weight="0.40" />
     </LinearLayout>
 
 </RelativeLayout>
