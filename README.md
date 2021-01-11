@@ -8,7 +8,6 @@ Current State:
 
 Plans:
 - [ ] Figure out why sometimes a notification is sent without any information from the original notification
-- [ ] Look more into the power consumption of the app
 - [ ] Look into a workaround for setting the color of the Edge Lightning effect
 
 ## Why is this App needed?
@@ -19,3 +18,6 @@ This app acts as a small middle layer between applications running on your andro
 
 ## How does it work?
 This application works by using 'Notification access' to copy the contents of any notification and resends it while activating the Edge Lightning. This means that every notification is sent twice, however, the notification sent by EdgeLight is just to trigger the Edge Lightning effect so it disappears after 1ms and makes no sound which gives the illusion that only a single notification was ever sent.
+
+# Troubleshooting
+- App suddenly stops working? It appears that Samsung auto disables apps that havent been used in 30 days. Edge Light is effected by this if the UI haven't been used in 30 days. So try opening the UI or restart the app to see if it helps.
