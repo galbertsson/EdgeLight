@@ -21,6 +21,7 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
     private final Spinner titlePos;
     private final Spinner textPos;
     private final EditText text;
+    private final EditText regExp;
 
     private Debounce textDebounce = new Debounce(1000);
 
@@ -31,6 +32,7 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
         titlePos = itemView.findViewById(R.id.title_pos);
         textPos = itemView.findViewById(R.id.text_pos);
         text = itemView.findViewById(R.id.header);
+        regExp = itemView.findViewById(R.id.regExp);
 
         onOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -39,7 +41,8 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
                         isChecked,
                         titlePos.getSelectedItemPosition(),
                         textPos.getSelectedItemPosition(),
-                        text.getText().toString()
+                        text.getText().toString(),
+                        regExp.getText().toString()
                 );
             }
         });
@@ -61,7 +64,8 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
                         onOff.isChecked(),
                         position,
                         textPos.getSelectedItemPosition(),
-                        text.getText().toString()
+                        text.getText().toString(),
+                        regExp.getText().toString()
                 );
             }
 
@@ -88,7 +92,8 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
                         onOff.isChecked(),
                         titlePos.getSelectedItemPosition(),
                         position,
-                        text.getText().toString()
+                        text.getText().toString(),
+                        regExp.getText().toString()
                 );
             }
 
@@ -114,7 +119,37 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
                                 onOff.isChecked(),
                                 titlePos.getSelectedItemPosition(),
                                 textPos.getSelectedItemPosition(),
-                                text.getText().toString()
+                                text.getText().toString(),
+                                regExp.getText().toString()
+                        );
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        regExp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textDebounce.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        settingsHelper.update(
+                                packageName.getText().toString(),
+                                onOff.isChecked(),
+                                titlePos.getSelectedItemPosition(),
+                                textPos.getSelectedItemPosition(),
+                                text.getText().toString(),
+                                regExp.getText().toString()
                         );
                     }
                 });
@@ -145,5 +180,9 @@ class SettingsViewHolder extends RecyclerView.ViewHolder{
 
     public void setHeader(String header) {
         text.setText(header);
+    }
+
+    public void setRegExp(String regExpText) {
+        regExp.setText(regExpText);
     }
 }

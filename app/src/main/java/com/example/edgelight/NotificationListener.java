@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.edgelight.controller.AppSettings;
 import com.example.edgelight.model.AppSetting;
 import com.example.edgelight.util.NotificationUtils;
+import java.util.regex.Pattern;
 
 
 public class NotificationListener extends NotificationListenerService {
@@ -69,10 +70,18 @@ public class NotificationListener extends NotificationListenerService {
                     CharSequence appName = pm.getApplicationLabel(appInfo);
                     AppSetting setting = AppSettings.getAppSettingDao().getSetting(packageName);
 
-                    if((setting != null ? !setting.getEnabled() : (appInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) != 0)) {
-                        return;
+                    boolean hasRegExp = setting.getRegExp() != null;
+                    boolean isMatchingRegExp = true;
+                    if (hasRegExp) {
+                        Pattern regExpPattern = Pattern.compile(setting.getRegExp(), Pattern.CASE_INSENSITIVE);
+                        boolean titleMatches = regExpPattern.matcher(title).find();
+                        boolean textMatches = regExpPattern.matcher(text).find();
+                        isMatchingRegExp = titleMatches || textMatches;
                     }
 
+                    if((setting != null ? (!setting.getEnabled() || !isMatchingRegExp): (appInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) != 0)) {
+                        return;
+                    }
 
                     notificationBuilder.setContentTitle(NotificationUtils.parseHeader(setting, appName, title, text));
                     notificationBuilder.setContentText(NotificationUtils.createNotificationText(title, text, setting));

@@ -22,6 +22,9 @@ public class AppSetting {
     @ColumnInfo(name = "text_pos")
     private int textPos;
 
+    @ColumnInfo(name = "regExp")
+    private String regExp;
+
     @ColumnInfo(name = "header")
     @Nullable
     private String header;
@@ -52,6 +55,10 @@ public class AppSetting {
         return header;
     }
 
+    public String getRegExp() {
+        return this.regExp;
+    }
+
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
@@ -68,9 +75,13 @@ public class AppSetting {
         this.header = header;
     }
 
+    public void setRegExp(String regExp) {
+        this.regExp = regExp;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "{package: " + packageName + ", titlePos: " + titlePos + ", textPos: " + textPos + ", enabled: " + enabled + "}";
+        return "{package: " + packageName + ", titlePos: " + titlePos + ", textPos: " + textPos + ", enabled: " + enabled + ", regExp:" + regExp + "}";
     }
 }
