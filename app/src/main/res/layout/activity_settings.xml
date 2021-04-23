@@ -30,7 +30,7 @@
         android:id="@+id/system_applications_checkbox"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Dispay system applications"
+        android:text="Display system applications"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />

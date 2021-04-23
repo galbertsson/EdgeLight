@@ -47,13 +47,14 @@ public class SettingsHelper {
         holder.setTextPos(appSetting != null ? appSetting.getTextPos() : 1);
         holder.setOnOff(appSetting != null ? appSetting.getEnabled() : (applicationInfo.flags & (ApplicationInfo.FLAG_SYSTEM)) == 0);
         holder.setHeader(appSetting != null ? appSetting.getHeader() : "$name");
+        holder.setRegExp(appSetting != null ? appSetting.getRegExp() : "");
     }
 
     public int getRowsCount(){
         return workingCopy.size();
     }
 
-    public void update(String packageName, Boolean on, int titlePos, int textPos, String header) {
+    public void update(String packageName, Boolean on, int titlePos, int textPos, String header, String regExp) {
         AppSetting appSetting = appSettingDao.getSetting(packageName);
         if (appSetting == null){
             appSetting = new AppSetting();
@@ -64,6 +65,7 @@ public class SettingsHelper {
         appSetting.setTextPos(textPos);
         appSetting.setEnabled(on);
         appSetting.setHeader(header);
+        appSetting.setRegExp(regExp);
 
         appSettingDao.setSetting(appSetting);
     }
