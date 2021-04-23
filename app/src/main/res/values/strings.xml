@@ -8,7 +8,7 @@
         The title can be changed with the following syntax:\n
          $name - translates into the name of the application that sent the original notification\n
          $title - translates into the original title of the notification\n
-         $test - translates into the original text of the notification\n
+         $text - translates into the original text of the notification\n
         All other characters will be treated as text and displayed without any modifications in the title.
 \n\n
     Color of notification:\n
